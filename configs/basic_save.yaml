@@ -1,0 +1,6 @@
+# Where to save the results (uses Python time.strftime codes)
+result_dir: 'results/%Y-%m-%d/%H-%M-%S'
+
+should_save:
+  config: True # Should we save the chosen config
+  git_info: True # Should we save the current git commit info

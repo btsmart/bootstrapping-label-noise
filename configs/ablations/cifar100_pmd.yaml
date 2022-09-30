@@ -1,0 +1,107 @@
+include: ['configs/basic_save.yaml']
+
+result_dir: 'results/cifar100_pmd_ablation/%Y-%m-%d-%H-%M-%S'
+
+seed: 5
+gpus: 0
+
+data:
+  dataset: 'cifar100'
+  noise_type: 'pmd-1-0.35'
+
+model:
+  base_model_type: 'preact_resnet18'
+  load_pretrained: True
+  semantic_type: 'semantic'
+
+  dropout: 0.2
+  feature_encoding_size: 128
+  label_encoding_size: 128
+  hidden_layer_size: 128
+
+ds_partition:
+  balancing_mode: 'noise_weighted'
+  guessing_label_iterations: 25
+  samples_for_noise_estimation: 0.9
+  confidence_threshold: 0.99
+  forced_frac: 0.25
+
+is_amp: 1
+print_freq: 100
+is_label_smoothing: False
+null_label_type: 'zeros'
+mix_alpha: 0.2
+
+# Optimizer
+optimizer: SGD
+momentum: 0.9
+is_nesterov: 1
+weight_decay: 0.0001
+
+bootstrapping:
+
+  is_mixup: True
+
+  # Epochs / Learning Rate
+  lr_schedule_mode: 'multistep'
+  epochs: 60
+  lr: 0.02
+  lr_milestones: [5, 50]
+  lr_gamma: 0.1
+
+  weight_decay: 0.0005
+
+  test_frequency: 1
+
+  # Data
+  batch_size: 64
+  num_workers: 1
+
+  # Augmentations
+  train_aug: 'strong'
+  eval_aug: 'weak'
+
+ssl:
+
+  is_mixup: False
+
+  batch_size: 64
+  eval_batch_size: 128
+  num_workers: 0
+
+  T: 0.5
+  p_cutoff: 0.95
+  ulb_loss_ratio: 1.0
+  hard_label: True
+
+  num_eval_iter: 1000
+
+  ema_m: 0.999
+  
+  lr: 0.02
+  slow_start_lr: 0.005
+  end_lr: 0.0001
+  slow_start_iters: 0
+
+  momentum: 0.9
+  weight_decay: 0.0005
+  is_nesterov: True
+
+  training_rounds: 1
+  iterations_per_round: 100000
+
+  uratio: 3
+
+final_model:
+
+  epochs: 300
+  test_frequency: 1
+
+  batch_size: 128
+  eval_batch_size: 100
+  num_workers: 0
+
+  lr: 0.02
+  slow_start_lr: 0.005
+  end_lr: 0.0001
+  slow_start_epochs: 0
