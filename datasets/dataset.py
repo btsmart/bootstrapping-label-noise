@@ -44,9 +44,12 @@ class DS:
             "true_labels": self.true_labels.tolist(),
             "learned_labels": self.learned_labels.tolist(),
             "noisy_label_sets": [labels.tolist() for labels in self.noisy_label_sets],
-            "weights": self.weights.tolist() if self.weights is not None else None,
-            "noise_distribution": self.noise_distribution.tolist() if self.noise_distribution is not None else None,
         }
+        if self.weights is not None:
+            data["weights"] = self.weights.tolist()
+        if self.noise_distribution is not None:
+            data["noise_distribution"] = self.noise_distribution.tolist()
+        
         with open(save_path, "w") as f:
             json.dump(data, f, ensure_ascii=True, indent=4)
 
