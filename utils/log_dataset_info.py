@@ -32,9 +32,9 @@ def assess_labels(ds, indices, labels):
 
 def compare_labels(ds, indices, labels_a, labels_b):
     num_classes = ds.noisy_label_sets[0].shape[1]
-    label_matrix = np.zeros((num_classes, num_classes), dtype=np.int)
-    correct_matrix = np.zeros((2, 2), dtype=np.int)
-    compared_to_true_matrix = np.zeros((num_classes, num_classes, num_classes), dtype=np.int)
+    label_matrix = np.zeros((num_classes, num_classes), dtype=np.int32)
+    correct_matrix = np.zeros((2, 2), dtype=np.int32)
+    compared_to_true_matrix = np.zeros((num_classes, num_classes, num_classes), dtype=np.int32)
     for i in indices:
         label_matrix[labels_a[i], labels_b[i]] += 1
         compared_to_true_matrix[ds.true_labels[i], labels_a[i], labels_b[i]] += 1
